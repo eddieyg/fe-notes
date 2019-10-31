@@ -1,6 +1,25 @@
 ## JS基础
   basics ...
 
+### 数据类型
+  Js的数据类型有7种，分为基本数据类型和引用数据类型。
+  基本数据类型：null、undefined、boolean、symbol、string、number
+  引用数据类型：Object
+
+  `typeof` 可以正确的返回大部分的数据类型，例外：null返回的是‘object’；函数返回的是‘function’
+  ```
+    typeof undefined              // 'undefined'
+    typeof true                   // 'boolean'
+    typeof Symbol()               // 'symbol'
+    typeof 'abcde'                // 'string'
+    typeof 28                     // 'number'
+    typeof {}                     // 'object'
+    typeof []                     // 'object'
+
+    typeof function (){}          // 'function'
+    typeof null                   // 'object'
+  ```
+
 ### 原型与原型链
   每个函数自身属性都有一个 prototype 显式原型，该原型上的 constructor 属性指向函数本身
 ```
@@ -56,4 +75,6 @@
     var instance = new Child('edd', 18)
     instance.getName()                                      // 'edd'
     instance.getAge()                                       // 18
+    instance instanceof Parent                              // true
+    instance instanceof Child                               // true
   ```
