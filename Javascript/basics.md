@@ -1,9 +1,9 @@
-## JS基础
+# JS基础
   basics ...
 
-### 数据类型
-  Js的数据类型有7种，分为基本数据类型和引用数据类型。
-  基本数据类型：null、undefined、boolean、symbol、string、number
+## 数据类型
+  Js的数据类型有7种，分为基本数据类型和引用数据类型。  
+  基本数据类型：null、undefined、boolean、symbol、string、number  
   引用数据类型：Object
 
   `typeof` 可以正确的返回大部分的数据类型，例外：null返回的是‘object’；函数返回的是‘function’
@@ -20,7 +20,7 @@
     typeof null                   // 'object'
   ```
 
-### 原型与原型链
+## 原型与原型链
   每个函数自身属性都有一个 prototype 显式原型，该原型上的 constructor 属性指向函数本身
 ```
   function fn() {}
@@ -47,7 +47,7 @@
   a.__proto__  →  A.prototype  →  A.prototype.__proto__  →  Object.prototype  →  null
 ```
 
-### 原型继承
+## 原型继承
   子类通过继承父类的原型，来获得父类的原型属性
 
   ```
