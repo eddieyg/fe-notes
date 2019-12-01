@@ -35,9 +35,9 @@
 
   ### CommonJS
   在`commonJS`模块化规范中，模块通过 `module.exports` 暴露接口和 `require()` 引用其他模块。  
-  `nodejs`使用的是`commonJS`模块化规范，每个js文件都是一个独立的模块。  
-  在浏览器中使用`commonJS`模块化规范，需要使用 `browserify` 编译打包在一个js文件。  
-  
+  `nodejs`使用的是`commonJS`规范，每个js文件都是一个独立的模块。  
+  在浏览器中使用`commonJS`规范，需要使用 `browserify` 编译打包。  
+
   在代码运行时同步加载模块，依赖模块在第一次引入时加载，之后再引入会使用缓存（包括依赖模块的依赖）
   ```
   // m1.js
@@ -70,6 +70,7 @@
   m1.addNum()
   console.log(m1.num)           // 0
   ```
+  关于 `commonJS` 更多详细的讲解：[阮一峰老师的文章 - CommonJS规范](http://javascript.ruanyifeng.com/nodejs/module.html)
 
   ### AMD
   模块文件映射
