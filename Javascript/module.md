@@ -1,5 +1,5 @@
 # 模块化
-  通过一定的规范将代码`按底层通用功能`或`业务功能`拆分为成独立的代码块，引用对应的代码块组合使用。代码块内部的数据是私有的，只向外部暴露一些接口（方法）通信。  
+  通过一定的规范将代码`按底层通用功能`或`业务功能`拆分成为独立的代码块，引用对应的代码块组合使用。代码块内部的数据是私有的，只向外部暴露一些接口（方法）通信。  
   减少了对全局变量的污染、避免了命名冲突，代码分离可以更好的按需加载，让代码有更高的复用性和可维护性。
 
   ## 原始的模块化实现  
@@ -70,12 +70,60 @@
   m1.addNum()
   console.log(m1.num)           // 0
   ```
-  关于 `commonJS` 更多详细的讲解：[阮一峰老师的文章 - CommonJS规范](http://javascript.ruanyifeng.com/nodejs/module.html)
+  关于 `commonJS` 更多详细的讲解：[阮一峰老师的文章 - CommonJS规范](http://javascript.ruanyifeng.com/nodejs/module.html)  
 
   ### AMD
-  模块文件映射
-  异步加载模块
-   特点：依赖前置、依赖提前执行
+  `AMD`模块规范通过模块加载器的定义函数定义模块，配置文件路径映射模块名称，使用模块名来依赖；而`AMD`模块加载器的典型代表就是`requireJS`。  
+  `AMD`采用的是异步加载模块的方式，所以适合在浏览器端使用；依赖前置：所有引用的模块都先提前加载完成。所有的模块只会加载一次，模块暴露的值也是值拷贝。
+  ```
+  // getRandom.js
+  define(function() {
+    console.log('getRandom init')
+    const getRandom = () => Math.round(Math.random() * 10000)
+    let num = getRandom()
+    const changeDefault = () => num = getRandom()
+    return {
+      default: num,
+      getRandom,
+      changeDefault
+    }
+  });
+
+  // render.js
+  define([
+    'jquery',
+    'getRandom'
+  ], function($, getR) {
+    console.log('render init')
+    return render = (id) => {
+      $(id).text(getR.getRandom())
+    }
+  });
+
+  // main.js
+  require.config({
+    baseUrl: './',
+    paths: {
+      jquery: './libs/jquery',
+      getRandom: './getRandom',
+      render: './render'
+    }
+  })
+  require([
+    'render',
+    'getRandom'
+  ], function (render, getR) {        // 'getRandom init', 'render init'  按照依赖的顺序加载执行
+    console.log('index init')         // 'index init'
+    render('#app')
+    console.log(getR.default)         // 8989
+    getR.changeDefault()
+    console.log(getR.default)         // 8989  getRandom 暴露的值不会被改变
+  })
+
+  // index.html
+  <div id="app"></div>
+  <script src="./libs/require.js" data-main="index.js"></script>
+  ```
 
   ### CMD
   同步执行异步加载模块
