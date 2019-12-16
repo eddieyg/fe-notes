@@ -161,9 +161,9 @@
     }
 
     var getR = require('./getRandom')     // 前面'./render'模块已经加载并执行了，这里直接使用缓存
-    console.log(getR.default)             // 8989
+    console.log(getR.default)             // 8899
     getR.changeDefault()
-    console.log(getR.default)             // 8989  getRandom 暴露的值不会被改变
+    console.log(getR.default)             // 8899  getRandom 暴露的值不会被改变
   });
 
   // index.html
