@@ -184,5 +184,35 @@
  
 
   ### ES6 Module
-  代码静态编译时输出接口
-  引入模块为值引用
+  ES6静态加载的设计思想，使得在编译时就可以确定模块的依赖关系，以及输入、输出的变量。ES6则在语言层面上实现了模块化，取代CommonJS、AMD、CMD成为服务端和浏览器端通用的模块解决方案。（CommonJS、AMD、CMD运行时确定依赖关系）  
+  `ES6 module` 的使用：
+  ```
+  // getSome.js
+  export const name = 'edd'
+  export const getAge = () => 18
+
+  // index.js
+  import { name, getAge } from './getSome.js'
+
+  // or...
+
+  // getSome.js
+  const name = 'edd'
+  const getAge = () => 18
+  export default { name, getAge }
+
+  // index.js
+  import getSome from './getSome.js'
+  ```
+  使用 `export` 输出为值的引用，模块内改变值，引用模块的值也会随着改变。
+  ```
+  // count.js
+  export let num = 1
+  export const addNum = () => num++
+
+  // index.js
+  import { num , addNum } from './count.js'
+  console.log(num)                              // 1
+  addNum()
+  console.log(num)                              // 2
+  ```
