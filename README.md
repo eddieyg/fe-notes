@@ -6,6 +6,7 @@
 
 - #### [Js基础](Javascript/basics.md)
 - #### [模块化](Javascript/module.md)
+- #### [浏览器](Javascript/browser.md)
 
 
 ### Css
