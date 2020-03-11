@@ -74,7 +74,7 @@
 
   ### AMD
   `AMD`模块规范通过模块加载器的定义函数定义模块，配置文件路径映射模块名称，使用模块名来依赖；而`AMD`模块加载器的典型代表就是`requireJS`。  
-  `AMD`采用的是异步加载模块的方式，所以适合在浏览器端使用；依赖前置：所有引用的模块都先提前加载完成。所有的模块只会加载一次，模块暴露的值也是值拷贝。
+  `AMD`采用的是异步加载模块的方式，所以适合在浏览器端使用；依赖前置：所有引用的模块都先提前加载完成并且执行。所有的模块只会加载一次，模块暴露的值也是值拷贝。
   ```
   // getRandom.js
   define(function() {
@@ -126,8 +126,94 @@
   ```
 
   ### CMD
-  同步执行异步加载模块
+  `CMD`模块规范以js文件为个体定义模块，与`commonJS`一样通过 `exports` 暴露接口和 `require()` 引用其他模块；`CMD`模块加载器的代表就是`seaJS`。  
+  `CMD`采用的是同步执行异步加载模块的方式，就近依赖：所有引用的模块文件都先提前加载完成，在 `require()` 引用的时候才执行，所有的模块只会加载和执行一次，模块暴露的值也是值拷贝。  
+  ```
+  // getRandom.js
+  define(function(require, exports, module) {
+    console.log('getRandom init')
+    const getRandom = () => Math.round(Math.random() * 10000)
+    let num = getRandom()
+    const changeDefault = () => num = getRandom()
+    module.exports = {
+      default: num,
+      getRandom,
+      changeDefault
+    }
+  });
+
+  // render.js
+  define(function(require, exports, module) {
+    console.log('render init')
+    require('jquery');
+    var getR = require('./getRandom')
+    module.exports = render = (id) => {
+      $(id).text(getR.getRandom())
+    }  
+  });
+
+  // main.js
+  define(function(require, exports, module) {
+    console.log('index init')             // 'index init'
+    if (true) {                           // 即使为 false 也会加载 './render'，但不会执行
+      var render = require('./render')    // 'render init', 'getRandom init'
+      render('#app')
+    }
+
+    var getR = require('./getRandom')     // 前面'./render'模块已经加载并执行了，这里直接使用缓存
+    console.log(getR.default)             // 8899
+    getR.changeDefault()
+    console.log(getR.default)             // 8899  getRandom 暴露的值不会被改变
+  });
+
+  // index.html
+  <div id="app"></div>
+  <script src="./libs/sea.js"></script>
+  <script>
+    seajs.config({
+      base: './libs/',
+      alias: {
+        'jquery': 'https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js'
+      }
+    });
+    seajs.use('./main.js', function (main) {
+      console.log(main)
+    })
+  </script>
+  ```
+ 
 
   ### ES6 Module
-  代码静态编译时输出接口
-  引入模块为值引用
+  ES6静态加载的设计思想，在编译时就可以确定模块的依赖关系，以及输入、输出的变量；做到按需加载，更好加载性能。  
+  ES6则在语言层面上实现了模块化，取代CommonJS、AMD、CMD成为服务端和浏览器端通用的模块解决方案。（CommonJS、AMD、CMD运行时确定依赖关系）  
+  `ES6 module` 的使用：
+  ```
+  // getSome.js
+  export const name = 'edd'
+  export const getAge = () => 18
+
+  // index.js
+  import { name, getAge } from './getSome.js'
+
+  // or...
+
+  // getSome.js
+  const name = 'edd'
+  const getAge = () => 18
+  export default { name, getAge }
+
+  // index.js
+  import getSome from './getSome.js'
+  ```
+  使用 `export` 输出为值的引用，模块内改变值，引用模块的值也会随着改变。
+  ```
+  // count.js
+  export let num = 1
+  export const addNum = () => num++
+
+  // index.js
+  import { num , addNum } from './count.js'
+  console.log(num)                              // 1
+  addNum()
+  console.log(num)                              // 2
+  ```
