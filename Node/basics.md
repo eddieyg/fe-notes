@@ -47,3 +47,5 @@
 - 检查是否有活跃的 handles（定时器、IO等事件句柄）
   - 如果有，继续下一轮循环
   - 如果没有，结束事件循环，退出程序
+
+[Node文档：事件循环](https://nodejs.org/zh-cn/docs/guides/event-loop-timers-and-nexttick/#what-is-the-event-loop)
