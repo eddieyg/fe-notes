@@ -78,3 +78,26 @@
     instance instanceof Parent                              // true
     instance instanceof Child                               // true
   ```
+
+  ## 数组的遍历方法
+
+  #### for循环
+
+  #### find()
+  - 参数的函数 return 为 `true` 中断遍历
+  - 返回中断遍历的 `成员` 或 `undefind`
+  ```
+  [1,2,3].find((val, index, arr) => val === 2)    // 2
+  ```
+  #### findIndex()
+  - 参数的函数 return 为 `true` 中断遍历
+  - 返回中断遍历 `成员的索引值` 或 `-1`
+  ```
+  [1,2,3].findIndex((val, index, arr) => val === 2)    // 1
+  ```
+  #### flatMap()
+  - 遍历所有数组成员
+  - 返回 参数的函数 return 的数组展开一层 的新数组
+  ```
+  [1,2,3].flatMap((val, index, arr) => [[val, val * 2]])    // [1,2,2,4,3,6]
+  ```
