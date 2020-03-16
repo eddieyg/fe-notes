@@ -1,18 +1,39 @@
 # HTTP
   ...
 
-  ## headers
+  ## 状态码
+  ### 200 请求成功
+  - 200：OK，表示从客户端发来的请求在服务器端被正确处理
+  - 204：No content，表示请求成功，但响应报文主体为空
+  ### 300 请求重定向
+  - 301：请求的资源已被永久的移动到新URL，浏览器会自动定向到新URL；之后的请求都使用新的URL代替
+  - 302：临时性重定向，表示资源临时被分配了新的 URL
+  - 303：表示资源存在着另一个 URL，应使用 GET 方法重新获取资源
+  - 304：请求的资源未修改过，不返回任何资源；客户端会缓存访问过的资源
+  - 307：临时重定向，和302含义相同
+  ### 400 客户端错误
+  - 400：请求报文存在语法错误
+  - 401：表示请求要求用户的身份认证
+  - 403：表示对请求资源的访问被服务器拒绝
+  - 404：表示在服务器上没有找到请求的资源
+  - 405：禁用客户端请求中的方法
 
-  accept  接受的数据类型
-  accept-encoding  接受的编码格式
-  connection  是否长连接
-  user-agent  客户端浏览器信息
-  cache-control  缓存控制
-  cookie  存储信息
+  ### 500 服务端错误
+  - 500：表示服务器端在执行请求时发生了错误
+  - 503：表明服务器暂时处于超负载或正在停机维护，无法处理请求
 
-  content-type  内容类型
-  context-encoding  内容编码
-  expires  过期时间
-  last-modified  最后修改时间
-  access-control-allow-origin  允许请求的域
-  access-control-allow-methods  允许请求的方法
+  ## 报文
+  ### 请求 header
+  accept  接受的数据类型  
+  accept-encoding  接受的编码格式  
+  connection  是否长连接  
+  user-agent  客户端浏览器信息  
+  cache-control  缓存控制  
+  cookie  存储信息  
+  ### 响应 header
+  content-type  内容类型  
+  context-encoding  内容编码  
+  expires  过期时间  
+  last-modified  最后修改时间  
+  access-control-allow-origin  允许请求的域  
+  access-control-allow-methods  允许请求的方法  
