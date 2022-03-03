@@ -1,4 +1,4 @@
-# FE-LearnNotes
+# fe-notes
 
   about learning notes ...
 
